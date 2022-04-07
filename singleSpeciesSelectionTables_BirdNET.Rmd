@@ -1,0 +1,68 @@
+---
+title: "Single-species detections from BirdNET"
+author: "Justin Mann"
+date: "2/18/2022"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+## the people's warbler
+```{r}
+sampleRecording <- as.data.frame(read.delim("sgl11_20170528_190011.BirdNET.selections_customlist.txt"))
+
+names(sampleRecording)[4] <- "Begin File"
+names(sampleRecording)[5] <- "Begin Time (s)"
+names(sampleRecording)[6] <- "End Time (s)"
+names(sampleRecording)[7] <- "Low Freq (Hz)"
+names(sampleRecording)[8] <- "High Freq (Hz)"
+names(sampleRecording)[9] <- "Species Code"
+names(sampleRecording)[10] <- "Common Name"
+```
+
+
+
+```{r}
+SSDets <- dplyr::filter(sampleRecording, `Species Code` == "bawwar")
+write.table(SSDets, file = "sgl11_528_1900_bawwar.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+## La Vida NOCA
+```{r}
+#Import data
+NOCA_June2_830.df <- as.data.frame(read.delim("SMA01193_20200602_082808.BirdNET.selections.txt")) 
+
+```
+
+#Rename columns to agree with Raven selection table requirements
+```{r}
+names(NOCA_adjustKHz.df)[4] <- "Begin File"
+names(NOCA_adjustKHz.df)[5] <- "Begin Time (s)"
+names(NOCA_adjustKHz.df)[6] <- "End Time (s)"
+names(NOCA_adjustKHz.df)[7] <- "Low Freq (Hz)"
+names(NOCA_adjustKHz.df)[4] <- "High Freq (Hz)"
+names(NOCA_adjustKHz.df)[4] <- "Species Code"
+names(NOCA_adjustKHz.df)[4] <- "Common Name"
+```
+
+```{r}
+#Save full BirdNET detections text file
+write.table(NOCA_adjustKHz.df, file = "SMA01193_0828.BirdNET.selections.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+```
+
+
+```{r}
+nocaSelections <- dplyr::filter(NOCA_June2_830, Species.Code == "norcar")
+write.table(nocaSelections, file = "NOCA_June2_830.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+```
